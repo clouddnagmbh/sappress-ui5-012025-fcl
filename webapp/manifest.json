@@ -1,0 +1,157 @@
+{
+    "_version": "1.48.0",
+    "sap.app": {
+        "id": "at.clouddna.fcl",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:basic",
+            "version": "1.16.1",
+            "toolsId": "61982322-ad88-4e99-9c1c-15cef937cbb8"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/iwfnd/RMTSAMPLEFLIGHT/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [
+                        "IWBEP_TEA_TEST_ANNOTATION_FILE"
+                    ],
+                    "localUri": "localService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            },
+            "IWBEP_TEA_TEST_ANNOTATION_FILE": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='%2FIWBEP%2FTEA_TEST_ANNOTATION_FILE',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService//IWBEP/TEA_TEST_ANNOTATION_FILE.xml"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.108.0",
+            "libs": {
+                "sap.f": {},
+				"sap.m": {},
+				"sap.ui.core": {},
+				"sap.ui.layout": {},
+				"sap.uxap": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "at.clouddna.fcl.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {}
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.f.routing.Router",
+                "viewType": "XML",
+                "async": true,
+                "viewPath": "at.clouddna.fcl.view",
+                "controlId": "fcl",
+                "transition": "slide"
+            },
+            "routes": [
+                {
+                    "name": "RouteCarrier",
+                    "pattern": ":?query:",
+                    "target": [
+                        "TargetCarrier"
+                    ]
+                },
+                {
+                    "name": "RouteCarrierDetails",
+                    "pattern": "carrier/{path}/:?query:",
+                    "target": [
+                        "TargetCarrier",
+                        "TargetCarrierDetails"
+                    ]
+                },
+                {
+                    "name": "RouteFlightDetails",
+                    "pattern": "carrier/{path}/flight/{path2}:?query:",
+                    "target": [
+                        "TargetCarrier",
+                        "TargetCarrierDetails",
+                        "TargetFlightDetails"
+                    ]
+                }
+            ],
+            "targets": {
+                "TargetCarrier": {
+                    "viewType": "XML",
+                    "viewId": "Carrier",
+                    "viewName": "Carrier",
+                    "controlAggregation": "beginColumnPages",
+                    "clearControlAggregation": true
+                },
+                "TargetCarrierDetails": {
+                    "viewType": "XML",
+                    "viewId": "CarrierDetails",
+                    "viewName": "CarrierDetails",
+                    "controlAggregation": "midColumnPages",
+                    "clearControlAggregation": true
+                },
+                "TargetFlightDetails": {
+                    "viewType": "XML",
+                    "viewId": "FlightDetails",
+                    "viewName": "FlightDetails",
+                    "controlAggregation": "endColumnPages",
+                    "clearControlAggregation": true
+                }
+            }
+        },
+        "rootView": {
+            "viewName": "at.clouddna.fcl.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "App"
+        }
+    }
+}

@@ -1,0 +1,84 @@
+<mvc:View xmlns:semantic="sap.f.semantic" xmlns:f="sap.ui.layout.form" controllerName="at.clouddna.fcl.controller.CarrierDetails"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:uxap="sap.uxap"
+    xmlns="sap.m">
+    <uxap:ObjectPageLayout>
+        <uxap:headerTitle>
+            <uxap:ObjectPageDynamicHeaderTitle>
+                <uxap:expandedHeading>
+                    <Title text="{CARRNAME}" wrapping="true" class="sapUiSmallMarginEnd"/>
+                </uxap:expandedHeading>
+                <uxap:navigationActions>
+					<OverflowToolbarButton type="Transparent" icon="sap-icon://full-screen" press="handleFullScreen" id="enterFullScreenBtn" tooltip="Enter Full Screen Mode" visible="{= ${ui>/actionButtonsInfo/midColumn/fullScreen} !== null }"/>
+					<OverflowToolbarButton type="Transparent" icon="sap-icon://exit-full-screen" press="handleExitFullScreen" id="exitFullScreenBtn" tooltip="Exit Full Screen Mode" visible="{= ${ui>/actionButtonsInfo/midColumn/exitFullScreen} !== null }"/>
+					<OverflowToolbarButton type="Transparent" icon="sap-icon://decline" press="handleClose"  tooltip="Close middle column" visible="{= ${ui>/actionButtonsInfo/midColumn/closeColumn} !== null }"/>
+		        </uxap:navigationActions>
+            </uxap:ObjectPageDynamicHeaderTitle>
+        </uxap:headerTitle>
+        <uxap:sections>
+			<uxap:ObjectPageSection title="General Information">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection>
+						<uxap:blocks>
+                            <f:SimpleForm id="detail_simpleform" editable="true" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1">
+                                <f:content>
+                                    <Label id="labelLogo" labelFor="avatarLogo" text="Logo"/>
+                                    <Avatar id="avatarLogo" src="/img/{carrid}.png" displaySize="S" displayShape="Square" showBorder="true"/>
+                                    <Label id="labelCarrid" labelFor="textCarrid" text="ID"/>
+                                    <Text id="textCarrid" text="{carrid}"/>
+                                    <Label id="labelCarrname" labelFor="textCarrname" text="Name"/>
+                                    <Text id="textCarrname" text="{CARRNAME}"/>
+                                    <Label id="labelWebsite" labelFor="linkWebsite" text="Website"/>
+                                    <Link id="linkWebsite" text="{URL}"/>
+                                    <Label id="labelCurr" labelFor="textCurr" text="Currency"/>
+                                    <Text id="textCurr" text="{CURRCODE}"/>
+                                </f:content>
+                            </f:SimpleForm>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <uxap:ObjectPageSection title="Flights">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection>
+						<uxap:blocks>
+                            <Table id="tableFlights" headerText="Flights" items="{ path: 'carrierFlights', sorter: { path: 'fldate', descending: true } }" alternateRowColors="true" growing="true" growingThreshold="200" mode="SingleSelectMaster" selectionChange="onNavToFlightDetail">
+                                <columns>
+                                    <Column id="columnConn">
+                                        <Label id="columnLabelConn" text="Connection"/>
+                                    </Column>
+                                    <Column id="columnFldate">
+                                        <Label id="columnLabelFldate" text="Flight date"/>
+                                    </Column>
+                                    <Column id="columnSeatsAv">
+                                        <Label id="columnLabelSeatsAv" text="Seats available"/>
+                                    </Column>
+                                    <!-- <Column id="columnSeatsMax">
+                                        <Label id="columnLabelSeatsMax" text="Max. capacity"/>
+                                    </Column>
+                                    <Column id="columnSeatsOcc">
+                                        <Label id="columnLabelSeatsOcc" text="# of occ. seats"/>
+                                    </Column> -->
+                                </columns>
+                                <items>
+                                    <ColumnListItem id="columnListItemTemplate" highlight="{parts: ['SEATSMAX','SEATSOCC'], formatter: '.stateAvSeats'}">
+                                        <cells>
+                                            <ObjectIdentifier title="{connid}" />
+                                            <ObjectIdentifier title="{ path: 'fldate', type: 'sap.ui.model.odata.type.Date'}" />
+                                            <!-- <Text text="{SEATSMAX}"/>
+                                            <Text text="{SEATSOCC}"/> -->
+                                            <ObjectStatus id="main_objectstatus_seatsavtemplate"
+                                                text="{= ${SEATSMAX} - ${SEATSOCC} }"
+                                                state="{parts: ['SEATSMAX','SEATSOCC'], formatter: '.stateAvSeats'}"
+                                                icon="{parts: ['SEATSMAX','SEATSOCC'], formatter: '.iconAvSeats'}"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+        </uxap:sections>
+    </uxap:ObjectPageLayout>
+</mvc:View>

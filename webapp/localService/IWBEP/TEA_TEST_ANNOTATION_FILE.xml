@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CORE',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Core.V1" Alias="Core"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../Annotations(TechnicalName='%2FIWBEP%2FTEA_TEST_ANNOTATION_FILE',Version='0001')/$value"/>
+    <edmx:Reference Uri="../../../iwfnd/rmtsampleflight/$metadata"/>
+    <edmx:Reference Uri="../../../iwbep/tea_test_application/$metadata">
+        <edmx:Include Alias="TEA"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="com.sap.iwbep.tea_test_annotation_file.v1" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <Annotations Target="Test_Qualifier.Test_Value">
+                <Annotation Term="Annotation.File">
+                    <Record Type="VocanIdForVocanProvider">
+                        <PropertyValue Property="TechnicalName" String="/IWBEP/TEA_TEST_ANNOTATION_FILE"/>
+                        <PropertyValue Property="TechnicalNameViaTranslation" String="/IWBEP/TEA_TEST_ANNOTATION_FILE"/>
+                        <PropertyValue Property="Version" Int="1"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="EPMDemoQualifier.PurchaseOrderItem2">
+                <Annotation Term="Core.Updateble" Bool="true"/>
+            </Annotations>
+            <Annotations Target="EPMDemoQualifier.PurchaseOrder/GrossAmount">
+                <Annotation Term="Core.AcceptableMediaTypes" Qualifier="iPad">
+                    <Collection>
+                        <String>image/jpeg</String>
+                        <String>image/gif</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.HeaderInfo" Qualifier="iPad">
+                    <Record Type="Some_Type">
+                        <PropertyValue Property="ValueID">
+                            <Collection>
+                                <String>Inside a collection in a record</String>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="EnumTest" EnumMember="org.example.ColorType.Yellow"/>
+                        <PropertyValue Property="IntTest" Int="42"/>
+                        <PropertyValue Property="Base" Path="Manager/ID"/>
+                        <PropertyValue Property="ImageUrl" PropertyPath="Image/URL"/>
+                        <PropertyValue Property="Title">
+                            <Record>
+                                <PropertyValue Property="Label" NavigationPropertyPath="MyProducts"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.Facets">
+                    <Record Type="UI.ReferenceURLFacet">
+                        <PropertyValue Property="Url">
+                            <Apply Function="odata.concat">
+                                <String>/epm_http/purchase/PurchaseOrderCollection?$filter=SupplierName eq '</String>
+                                <Path>Name</Path>
+                                <String>'</String>
+                                <Apply Function="Use.Constants.Of.iwbep.if_mgw_vocan_function.instead">
+                                    <String>This is just a test and not reasonable</String>
+                                </Apply>
+                            </Apply>
+                        </PropertyValue>
+                        <PropertyValue Property="PropertyWithUrl">
+                            <UrlRef>
+                                <String>http://example.org:1234/sap/opu/megaservice.srv</String>
+                            </UrlRef>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="EPMDemo.PurchaseOrderItem">
+                <Annotation Term="EPMDemo.SupplierNav">
+                    <UrlRef>
+                        <Apply Function="ToLowerCase_Dummy">
+                            <String>http://example.org:1234/sap/opu/megaservice.srv</String>
+                        </Apply>
+                    </UrlRef>
+                </Annotation>
+                <Annotation Term="EPMDemo.SupplierNav2">
+                    <UrlRef>
+                        <String>http://example.org:1234/sap/opu/megaservice.srv</String>
+                    </UrlRef>
+                </Annotation>
+                <Annotation Term="EPMDemo.SupplierNav3">
+                    <Apply Function="odata.fillUriTemplate">
+                        <String>http://example.org:1234/sap/opu/megaservice.srv/Suppliers(para1={P0},para2='EineKonstante')</String>
+                        <LabeledElement Name="P0">
+                            <Apply Function="odata.uriEncode">
+                                <Path>ProductID</Path>
+                            </Apply>
+                        </LabeledElement>
+                    </Apply>
+                </Annotation>
+                <Annotation Term="org.example.display.DispayAddress2">
+                    <Collection>
+                        <Record Type="Some_Address_Type">
+                            <PropertyValue Property="AddressID" Path="AddressID"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="org.example.display.DisplayName">
+                    <LabeledElement Name="CustomerFirstName" Path="FirstName"/>
+                </Annotation>
+                <Annotation Term="org.example.display.DisplayName2">
+                    <LabeledElementReference>CustomerFirstName</LabeledElementReference>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="EPMDemo.PurchaseOrderItemEnabled">
+                <Annotation Term="POIEnabled">
+                    <Not>
+                        <Or>
+                            <Gt>
+                                <Int>3</Int>
+                                <EnumMember>Common:FieldControlType/Hidden</EnumMember>
+                            </Gt>
+                            <Ne>
+                                <Int>3</Int>
+                                <Int>7</Int>
+                            </Ne>
+                        </Or>
+                        <Annotation Term="16" Qualifier="16_1"/>
+                        <Annotation Term="03" Qualifier="03_1"/>
+                    </Not>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Texts">
+                <Annotation Term="TextTypes">
+                    <Record Type="TextTypes">
+                        <PropertyValue Property="Text Element" String="The precision of the currency is set in the property Counter"/>
+                        <PropertyValue Property="Data element from DDIC field" String="Time"/>
+                        <PropertyValue Property="Data element from structure" String="Payment currency"/>
+                        <PropertyValue Property="Data element from local type" String="Character Field of Length 12"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

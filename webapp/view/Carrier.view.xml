@@ -1,0 +1,18 @@
+<mvc:View xmlns:semantic="sap.f.semantic" xmlns:f="sap.f" controllerName="at.clouddna.fcl.controller.Carrier"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:uxap="sap.uxap"
+    xmlns="sap.m">
+    <f:DynamicPage id="dynamicPageId" >
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="Carrier"/>
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:content>
+            <List id="carrierList" items="{/CarrierCollection}" mode="SingleSelectMaster" selectionChange="onNavToDetail">
+                <StandardListItem id="listItemTemplate" title="{CARRNAME}" description="{carrid}" icon="/img/{carrid}.png" />
+            </List>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>
